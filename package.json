@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/zulfikar4568/json-api/issues"
   },
-  "homepage": "https://github.com/zulfikar4568/json-api#readme"
+  "homepage": "https://github.com/zulfikar4568/json-api#readme",
+  "dependencies": {
+    "@types/google-apps-script": "^1.0.31"
+  }
 }
