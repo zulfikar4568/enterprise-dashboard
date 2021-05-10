@@ -54,21 +54,24 @@ function doPost(e){
   let flag = false;
   const ss = SpreadsheetApp.getActiveSpreadsheet(); //get active spreadsheet
   const ws = ss.getSheetByName("AssemblyLine"); //get sheet
-  let IdAssembly = e.parameter.IdAssembly;
+  let IdAssemblyLine = e.parameter.IdAssemblyLine;
   let lastRow = ws.getLastRow();
 
   for (var row = 1; row < lastRow; row++){
-    let IdAssemblyServer = ws.getRange(row, 1).getValue();
-    if (IdAssembly==IdAssemblyServer){
+    let IdAssemblyLineServer = ws.getRange(row, 1).getValue();
+    if (IdAssemblyLine==IdAssemblyLineServer){
       ws.deleteRow(row);
       flag = true;
     }
   }
-  if (flag==0){
-    let result = "Id not found!";
+  let message, status;
+  if (flag==false){
+    status = 404
+    message = "Id is not found!";
   } else {
-    let result = "Success delete";
+    status = 200
+    message = "Success delete the data";
   }
-  result = JSON.stringify({"result": result});
-  return ContentService.createTextOutput(result).setMimeType(ContentService.MimeType.JSON);
+  message = JSON.stringify({"status": status, "message": message});
+  return ContentService.createTextOutput(message).setMimeType(ContentService.MimeType.JSON);
 }
