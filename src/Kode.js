@@ -23,20 +23,21 @@ function doPost(e){
   let flag = false;
   const ss = SpreadsheetApp.getActiveSpreadsheet(); //get active spreadsheet
   const ws = ss.getSheetByName("Plant"); //get sheet
-  let IdAssembly = e.parameter.IdAssembly;
+  let IdPlant = e.parameter.IdPlant;
   let lastRow = ws.getLastRow();
 
   for (var row = 1; row < lastRow; row++){
-    let IdAssemblyServer = ws.getRange(row, 1).getValue();
-    if (IdAssembly==IdAssemblyServer){
+    let IdPlantServer = ws.getRange(row, 1).getValue();
+    if (IdPlant==IdPlantServer){
       ws.deleteRow(row);
       flag = true;
     }
   }
+  let result;
   if (flag==0){
-    let result = "Id not found!";
+    result = "Id not found!";
   } else {
-    let result = "Success delete";
+    result = "Success delete";
   }
   result = JSON.stringify({"result": result});
   return ContentService.createTextOutput(result).setMimeType(ContentService.MimeType.JSON);
