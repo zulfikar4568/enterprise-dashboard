@@ -38,12 +38,14 @@ function doPost(e){
       flag = true;
     }
   }
-  let result;
-  if (flag==0){
-    result = "Id not found!";
+  let message, status;
+  if (flag==false){
+    status = 404
+    message = "Id is not found!";
   } else {
-    result = "Success delete";
+    status = 200
+    message = "Success delete the data";
   }
-  result = JSON.stringify({"result": result});
-  return ContentService.createTextOutput(result).setMimeType(ContentService.MimeType.JSON);
+  message = JSON.stringify({"status": status, "message": message});
+  return ContentService.createTextOutput(message).setMimeType(ContentService.MimeType.JSON);
 }
