@@ -14,8 +14,9 @@ function doGet() {
     let obj5 = {};
     let obj6 = {};
     let obj7 = {};
+    let obj8 = {};
     headers.forEach((h,i) => {
-      if (i<12){
+      if (i<=12){
         obj[h] = r[i];
       }else if(i==13){
         obj2[h] = r[i];
