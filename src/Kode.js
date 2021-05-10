@@ -25,9 +25,18 @@ function sendJSON_(jsonResponse){
 }
 
 function doPost(e){
-  let flag = false;
   const ss = SpreadsheetApp.getActiveSpreadsheet(); //get active spreadsheet
   const ws = ss.getSheetByName("Plant"); //get sheet
+  
+  switch(e.parameter.Action){
+    case "delete":
+      return doDelete(e, ws);
+      break;
+  }
+}
+
+function doDelete(e, ws){
+  let flag = false;
   let IdPlant = e.parameter.IdPlant;
   let lastRow = ws.getLastRow();
 
