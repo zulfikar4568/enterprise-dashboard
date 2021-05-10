@@ -18,6 +18,11 @@ function doGet() {
   return sendJSON_(response);
 }
 
+function sendJSON_(jsonResponse){
+  return ContentService
+    .createTextOutput(JSON.stringify(jsonResponse))
+    .setMimeType(ContentService.MimeType.JSON);
+}
 
 function doPost(e){
   let flag = false;
