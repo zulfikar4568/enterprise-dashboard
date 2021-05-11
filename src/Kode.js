@@ -35,17 +35,32 @@ function doPost(e){
     case "update":
       return doUpdate(e, ws);
       break;
+    case "insert":
+      return doInsert(e, ws);
+      break;
   }
+}
+
+function doInsert(e, ws){
+  let dataArray = [];
+  dataArray.push(e.parameter.NamePlant);
+  dataArray.push(e.parameter.Description);
+  const data = ws.getRange("A1").getDataRegion().getValues();
+  
+  for (var column=1; column<=dataArray.length+1;column++){
+    if(column > 1){
+      ws.getRange((data.length+1),column).setValue(dataArray[column-2]);
+    }
+  }
+
+  message = JSON.stringify({"status": 200, "message": "Insert data has been successed!"});
+  return ContentService.createTextOutput(message).setMimeType(ContentService.MimeType.JSON);
 }
 
 function doUpdate(e, ws){
   let dataArray = [];
   dataArray.push(e.parameter.NamePlant);
   dataArray.push(e.parameter.Description);
-  dataArray.push(e.parameter.Capacity);
-  dataArray.push(e.parameter.Output);
-  dataArray.push(e.parameter.OEE);
-  dataArray.push(e.parameter.Status);
   let IdPlant = e.parameter.IdPlant;
 
   let flag = 0;
@@ -55,7 +70,7 @@ function doUpdate(e, ws){
   for (var row = 1; row < lastRow; row++){
     let IdPlantServer = ws.getRange(row, 1).getValue();
     if (IdPlant==IdPlantServer){
-      for(var column=1; column<=headers.length;column++){
+      for(var column=1; column<=dataArray.length+1;column++){
         if (column>1){
           ws.getRange(row, column).setValue(dataArray[column-2]);
         }
