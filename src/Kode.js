@@ -1,7 +1,7 @@
 function doGet() {
 
   const ss = SpreadsheetApp.getActiveSpreadsheet(); //get active spreadsheet
-  const ws = ss.getSheetByName("Plant"); //get sheet
+  const ws = ss.getSheetByName("NCRCauseList"); //get sheet
   const data = ws.getRange("A1").getDataRegion().getValues(); //get data from A1
   const headers = data.shift(); //get data headers
 
@@ -26,7 +26,7 @@ function sendJSON_(jsonResponse){
 
 function doPost(e){
   const ss = SpreadsheetApp.getActiveSpreadsheet(); //get active spreadsheet
-  const ws = ss.getSheetByName("Plant"); //get sheet
+  const ws = ss.getSheetByName("NCRCauseList"); //get sheet
   
   switch(e.parameter.Action){
     case "delete":
@@ -40,21 +40,19 @@ function doPost(e){
 
 function doUpdate(e, ws){
   let dataArray = [];
-  dataArray.push(e.parameter.NamePlant);
-  dataArray.push(e.parameter.Description);
-  dataArray.push(e.parameter.Capacity);
-  dataArray.push(e.parameter.Output);
-  dataArray.push(e.parameter.OEE);
-  dataArray.push(e.parameter.Status);
-  let IdPlant = e.parameter.IdPlant;
+  dataArray.push(e.parameter.Value);
+  dataArray.push(e.parameter.CauseName);
+  dataArray.push(e.parameter.CauseSymptom);
+  dataArray.push(e.parameter.AffectedPart);
+  let IdNCRCauseList = e.parameter.IdNCRCauseList;
 
   let flag = 0;
   let lastRow = ws.getLastRow();
   const headers = ws.getRange("A1").getDataRegion().getValues().shift();
 
   for (var row = 1; row < lastRow; row++){
-    let IdPlantServer = ws.getRange(row, 1).getValue();
-    if (IdPlant==IdPlantServer){
+    let IdNCRCauseListServer = ws.getRange(row, 1).getValue();
+    if (IdNCRCauseList==IdNCRCauseListServer){
       for(var column=1; column<=headers.length;column++){
         if (column>1){
           ws.getRange(row, column).setValue(dataArray[column-2]);
@@ -77,12 +75,12 @@ function doUpdate(e, ws){
 
 function doDelete(e, ws){
   let flag = false;
-  let IdPlant = e.parameter.IdPlant;
+  let IdNCRCauseList = e.parameter.IdNCRCauseList;
   let lastRow = ws.getLastRow();
 
   for (var row = 1; row < lastRow; row++){
-    let IdPlantServer = ws.getRange(row, 1).getValue();
-    if (IdPlant==IdPlantServer){
+    let IdNCRCauseListServer = ws.getRange(row, 1).getValue();
+    if (IdNCRCauseList==IdNCRCauseListServer){
       ws.deleteRow(row);
       flag = true;
     }
