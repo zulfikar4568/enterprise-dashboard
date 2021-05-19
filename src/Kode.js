@@ -8,8 +8,14 @@ function doGet() {
   // r = row, h = header, i = index
   const jsonArray = data.map(r => {
     let obj = {};
+    let obj2 = {};
     headers.forEach((h,i) => {
-      obj[h] = r[i];
+      if (i<9){
+        obj[h] = r[i];
+      } else if(i==10){
+        obj2[h] = r[i];
+        obj[h] = obj2;
+      }
     });
     return obj;
   });
@@ -42,6 +48,7 @@ function doUpdate(e, ws){
   let dataArray = [];
   dataArray.push(e.parameter.NamePlant);
   dataArray.push(e.parameter.Description);
+  dataArray.push(e.parameter.Treshold);
   let IdPlant = e.parameter.IdPlant;
 
   let flag = 0;
