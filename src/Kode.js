@@ -36,6 +36,9 @@ function doGet() {
       }else if(i==18){
         obj7[h] = r[i];
         obj[h] = obj7;
+      }else if(i==19){
+        obj8[h] = r[i];
+        obj[h] = obj8;
       }
     });
     return obj;
@@ -85,6 +88,7 @@ function doUpdate(e, ws){
   dataArray.push(e.parameter.NCRCauseList_3);
   dataArray.push(e.parameter.NCRCauseList_4);
   dataArray.push(e.parameter.NCRCauseList_5);
+  dataArray.push(e.parameter.Treshold);
   let IdAssemblyLine = e.parameter.IdAssemblyLine;
 
   let flag = 0;
