@@ -57,7 +57,7 @@ function doUpdate(e, ws){
   for (var row = 1; row <= lastRow; row++){
     let IdTresholdServer = ws.getRange(row, 1).getValue();
     if (IdTreshold==IdTresholdServer){
-      for(var column=1; column<=headers.length;column++){
+      for(var column=1; column<=dataArray.length+1;column++){
         if (column>1){
           ws.getRange(row, column).setValue(dataArray[column-2]);
         }
