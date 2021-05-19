@@ -54,7 +54,7 @@ function doUpdate(e, ws){
   let lastRow = ws.getLastRow();
   const headers = ws.getRange("A1").getDataRegion().getValues().shift();
 
-  for (var row = 1; row < lastRow; row++){
+  for (var row = 1; row <= lastRow; row++){
     let IdTresholdServer = ws.getRange(row, 1).getValue();
     if (IdTreshold==IdTresholdServer){
       for(var column=1; column<=headers.length;column++){
