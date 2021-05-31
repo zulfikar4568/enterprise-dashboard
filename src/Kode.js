@@ -1,44 +1,20 @@
 function doGet() {
 
   const ss = SpreadsheetApp.getActiveSpreadsheet(); //get active spreadsheet
-  const ws = ss.getSheetByName("AssemblyLine"); //get sheet
-  const data = ws.getRange("A1").getDataRegion().getValues(); //get data from A1
+  const ws = ss.getSheetByName("P&L_API"); //get sheet
+  const data = ws.getRange("A1").getDataRegion().getValues(); //get data from A2
   const headers = data.shift(); //get data headers
 
   // r = row, h = header, i = index
   const jsonArray = data.map(r => {
     let obj = {};
     let obj2 = {};
-    let obj3 = {};
-    let obj4 = {};
-    let obj5 = {};
-    let obj6 = {};
-    let obj7 = {};
-    let obj8 = {};
     headers.forEach((h,i) => {
-      if (i<=12){
+      if (i<=18){
         obj[h] = r[i];
-      }else if(i==13){
+      }else if(i==19){
         obj2[h] = r[i];
         obj[h] = obj2;
-      }else if(i==14){
-        obj3[h] = r[i];
-        obj[h] = obj3;
-      }else if(i==15){
-        obj4[h] = r[i];
-        obj[h] = obj4;
-      }else if(i==16){
-        obj5[h] = r[i];
-        obj[h] = obj5;
-      }else if(i==17){
-        obj6[h] = r[i];
-        obj[h] = obj6;
-      }else if(i==18){
-        obj7[h] = r[i];
-        obj[h] = obj7;
-      }else if(i==19){
-        obj8[h] = r[i];
-        obj[h] = obj8;
       }
     });
     return obj;
@@ -56,7 +32,7 @@ function sendJSON_(jsonResponse){
 
 function doPost(e){
   const ss = SpreadsheetApp.getActiveSpreadsheet(); //get active spreadsheet
-  const ws = ss.getSheetByName("AssemblyLine"); //get sheet
+  const ws = ss.getSheetByName("P&L_API"); //get sheet
   
   switch(e.parameter.Action){
     case "delete":
@@ -70,34 +46,34 @@ function doPost(e){
 
 function doUpdate(e, ws){
   let dataArray = [];
-  dataArray.push(e.parameter.LineNo);
-  dataArray.push(e.parameter.Description);
-  dataArray.push(e.parameter.PersonInCharge);
-  dataArray.push(e.parameter.PICPhone);
-  dataArray.push(e.parameter.PICEmail);
-  dataArray.push(e.parameter.OEE);
-  dataArray.push(e.parameter.Capacity);
-  dataArray.push(e.parameter.Output);
-  dataArray.push(e.parameter.Status);
-  dataArray.push(e.parameter.Performance);
-  dataArray.push(e.parameter.Availability);
-  dataArray.push(e.parameter.Quality);
+  dataArray.push(e.parameter.Year);
+  dataArray.push(e.parameter.Month);
+  dataArray.push(e.parameter.NetRevenue);
+  dataArray.push(e.parameter.CostofGoodsSold);
+  dataArray.push(e.parameter.GrossProfit);
+  dataArray.push(e.parameter.MarketingAndPromotion);
+  dataArray.push(e.parameter.Rent);
+  dataArray.push(e.parameter.OfficeEquipment);
+  dataArray.push(e.parameter.Maintenance);
+  dataArray.push(e.parameter.DepreciationAndAmortization);
+  dataArray.push(e.parameter.Utility);
+  dataArray.push(e.parameter.TravelAndAccomodation);
+  dataArray.push(e.parameter.MiscExpenses);
+  dataArray.push(e.parameter.TotalExpense);
+  dataArray.push(e.parameter.EBIT);
+  dataArray.push(e.parameter.InterestExpense);
+  dataArray.push(e.parameter.Taxes);
+  dataArray.push(e.parameter.NetProfit);
   dataArray.push(e.parameter.Plant);
-  dataArray.push(e.parameter.NCRCauseList);
-  dataArray.push(e.parameter.NCRCauseList_2);
-  dataArray.push(e.parameter.NCRCauseList_3);
-  dataArray.push(e.parameter.NCRCauseList_4);
-  dataArray.push(e.parameter.NCRCauseList_5);
-  dataArray.push(e.parameter.Treshold);
-  let IdAssemblyLine = e.parameter.IdAssemblyLine;
+  let IdPAndL = e.parameter.IdPAndL;
 
   let flag = 0;
   let lastRow = ws.getLastRow();
   const headers = ws.getRange("A1").getDataRegion().getValues().shift();
 
   for (var row = 1; row < lastRow; row++){
-    let IdAssemblyLineServer = ws.getRange(row, 1).getValue();
-    if (IdAssemblyLine==IdAssemblyLineServer){
+    let IdPAndLServer = ws.getRange(row, 1).getValue();
+    if (IdPAndL==IdPAndLServer){
       for(var column=1; column<=headers.length;column++){
         if (column>1){
           ws.getRange(row, column).setValue(dataArray[column-2]);
@@ -120,12 +96,12 @@ function doUpdate(e, ws){
 
 function doDelete(e, ws){
   let flag = false;
-  let IdAssemblyLine = e.parameter.IdAssemblyLine;
+  let IdPAndL = e.parameter.IdPAndL;
   let lastRow = ws.getLastRow();
 
   for (var row = 1; row < lastRow; row++){
-    let IdAssemblyLineServer = ws.getRange(row, 1).getValue();
-    if (IdAssemblyLine==IdAssemblyLineServer){
+    let IdPAndLServer = ws.getRange(row, 1).getValue();
+    if (IdPAndL==IdPAndLServer){
       ws.deleteRow(row);
       flag = true;
     }
