@@ -8,8 +8,14 @@ function doGet() {
   // r = row, h = header, i = index
   const jsonArray = data.map(r => {
     let obj = {};
+    let obj2 = {};
     headers.forEach((h,i) => {
-      obj[h] = r[i];
+      if (i<=10){
+        obj[h] = r[i];
+      } else if(i==11){
+        obj2[h] = r[i];
+        obj[h] = obj2;
+      }
     });
     return obj;
   });
