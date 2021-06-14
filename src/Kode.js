@@ -16,27 +16,27 @@ function doGet() {
     let obj7 = {};
     let obj8 = {};
     headers.forEach((h,i) => {
-      if (i<=12){
+      if (i<=13){
         obj[h] = r[i];
-      }else if(i==13){
+      }else if(i==14){
         obj2[h] = r[i];
         obj[h] = obj2;
-      }else if(i==14){
+      }else if(i==15){
         obj3[h] = r[i];
         obj[h] = obj3;
-      }else if(i==15){
+      }else if(i==16){
         obj4[h] = r[i];
         obj[h] = obj4;
-      }else if(i==16){
+      }else if(i==17){
         obj5[h] = r[i];
         obj[h] = obj5;
-      }else if(i==17){
+      }else if(i==18){
         obj6[h] = r[i];
         obj[h] = obj6;
-      }else if(i==18){
+      }else if(i==19){
         obj7[h] = r[i];
         obj[h] = obj7;
-      }else if(i==19){
+      }else if(i==20){
         obj8[h] = r[i];
         obj[h] = obj8;
       }
