@@ -1,21 +1,15 @@
 function doGet() {
 
   const ss = SpreadsheetApp.getActiveSpreadsheet(); //get active spreadsheet
-  const ws = ss.getSheetByName("Plant"); //get sheet
+  const ws = ss.getSheetByName("Target_P&L"); //get sheet
   const data = ws.getRange("A1").getDataRegion().getValues(); //get data from A1
-  const headers = data.shift(); //get data headers
-
+  data.shift(); //get data headers
+  const headers = ['Time', 'RevenueDollar', 'GrossProfitDollar',	'GrossProfitPercent',	'EBITDollar',	'EBITPercent',	'NetProfitDollar',	'NetProfitPercent'];
   // r = row, h = header, i = index
   const jsonArray = data.map(r => {
     let obj = {};
-    let obj2 = {};
     headers.forEach((h,i) => {
-      if (i<=10){
         obj[h] = r[i];
-      } else if(i==11){
-        obj2[h] = r[i];
-        obj[h] = obj2;
-      }
     });
     return obj;
   });
@@ -32,7 +26,7 @@ function sendJSON_(jsonResponse){
 
 function doPost(e){
   const ss = SpreadsheetApp.getActiveSpreadsheet(); //get active spreadsheet
-  const ws = ss.getSheetByName("Plant"); //get sheet
+  const ws = ss.getSheetByName("Target_P&L"); //get sheet
   
   switch(e.parameter.Action){
     case "delete":
@@ -49,8 +43,14 @@ function doPost(e){
 
 function doInsert(e, ws){
   let dataArray = [];
-  dataArray.push(e.parameter.NamePlant);
-  dataArray.push(e.parameter.Description);
+  
+  dataArray.push(e.parameter.RevenueDollar);
+  dataArray.push(e.parameter.GrossProfitDollar);
+  dataArray.push(e.parameter.GrossProfitPercent);
+  dataArray.push(e.parameter.EBITDollar);
+  dataArray.push(e.parameter.EBITPercent);
+  dataArray.push(e.parameter.NetProfitDollar);
+  dataArray.push(e.parameter.NetProfitPercent);
   const data = ws.getRange("A1").getDataRegion().getValues();
   
   for (var column=1; column<=dataArray.length+1;column++){
@@ -65,9 +65,14 @@ function doInsert(e, ws){
 
 function doUpdate(e, ws){
   let dataArray = [];
-  dataArray.push(e.parameter.NamePlant);
-  dataArray.push(e.parameter.Description);
-  let IdPlant = e.parameter.IdPlant;
+  dataArray.push(e.parameter.RevenueDollar);
+  dataArray.push(e.parameter.GrossProfitDollar);
+  dataArray.push(e.parameter.GrossProfitPercent);
+  dataArray.push(e.parameter.EBITDollar);
+  dataArray.push(e.parameter.EBITPercent);
+  dataArray.push(e.parameter.NetProfitDollar);
+  dataArray.push(e.parameter.NetProfitPercent);
+  let IdPlant = e.parameter.Time;
 
   let flag = 0;
   let lastRow = ws.getLastRow();
@@ -98,7 +103,7 @@ function doUpdate(e, ws){
 
 function doDelete(e, ws){
   let flag = false;
-  let IdPlant = e.parameter.IdPlant;
+  let IdPlant = e.parameter.Time;
   let lastRow = ws.getLastRow();
 
   for (var row = 1; row < lastRow; row++){
