@@ -10,9 +10,9 @@ function doGet() {
     let obj = {};
     let obj2 = {};
     headers.forEach((h,i) => {
-      if (i<9){
+      if (i<=10){
         obj[h] = r[i];
-      } else if(i==10){
+      } else if(i==11){
         obj2[h] = r[i];
         obj[h] = obj2;
       }
@@ -41,14 +41,32 @@ function doPost(e){
     case "update":
       return doUpdate(e, ws);
       break;
+    case "insert":
+      return doInsert(e, ws);
+      break;
   }
+}
+
+function doInsert(e, ws){
+  let dataArray = [];
+  dataArray.push(e.parameter.NamePlant);
+  dataArray.push(e.parameter.Description);
+  const data = ws.getRange("A1").getDataRegion().getValues();
+  
+  for (var column=1; column<=dataArray.length+1;column++){
+    if(column > 1){
+      ws.getRange((data.length+1),column).setValue(dataArray[column-2]);
+    }
+  }
+
+  message = JSON.stringify({"status": 200, "message": "Insert data has been successed!"});
+  return ContentService.createTextOutput(message).setMimeType(ContentService.MimeType.JSON);
 }
 
 function doUpdate(e, ws){
   let dataArray = [];
   dataArray.push(e.parameter.NamePlant);
   dataArray.push(e.parameter.Description);
-  dataArray.push(e.parameter.Treshold);
   let IdPlant = e.parameter.IdPlant;
 
   let flag = 0;
