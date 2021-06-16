@@ -1,10 +1,9 @@
 function doGet() {
 
   const ss = SpreadsheetApp.getActiveSpreadsheet(); //get active spreadsheet
-  const ws = ss.getSheetByName("Target_P&L"); //get sheet
+  const ws = ss.getSheetByName("TresholdP&L"); //get sheet
   const data = ws.getRange("A1").getDataRegion().getValues(); //get data from A1
-  data.shift(); //get data headers
-  const headers = ['Time', 'RevenueDollar', 'GrossProfitDollar',	'GrossProfitPercent',	'EBITDollar',	'EBITPercent',	'NetProfitDollar',	'NetProfitPercent'];
+  const headers = data.shift(); //get data headers
   // r = row, h = header, i = index
   const jsonArray = data.map(r => {
     let obj = {};
@@ -26,7 +25,7 @@ function sendJSON_(jsonResponse){
 
 function doPost(e){
   const ss = SpreadsheetApp.getActiveSpreadsheet(); //get active spreadsheet
-  const ws = ss.getSheetByName("Target_P&L"); //get sheet
+  const ws = ss.getSheetByName("TresholdP&L"); //get sheet
   
   switch(e.parameter.Action){
     case "delete":
@@ -42,15 +41,21 @@ function doPost(e){
 }
 
 function doInsert(e, ws){
-  let dataArray = [];
-  
-  dataArray.push(e.parameter.RevenueDollar);
-  dataArray.push(e.parameter.GrossProfitDollar);
-  dataArray.push(e.parameter.GrossProfitPercent);
-  dataArray.push(e.parameter.EBITDollar);
-  dataArray.push(e.parameter.EBITPercent);
-  dataArray.push(e.parameter.NetProfitDollar);
-  dataArray.push(e.parameter.NetProfitPercent);
+  let dataArray = [];						
+  dataArray.push(e.parameter.RedYellowRevenue);
+  dataArray.push(e.parameter.YellowGreenRevenue);
+  dataArray.push(e.parameter.RedYellowGrossProfit);
+  dataArray.push(e.parameter.YellowGreenGrossProfit);
+  dataArray.push(e.parameter.RedYellowEBIT);
+  dataArray.push(e.parameter.YellowGreenEBIT);
+  dataArray.push(e.parameter.RedYellowNetProfit);
+  dataArray.push(e.parameter.YellowGreenNetProfit);
+  dataArray.push(e.parameter.RedYellowGrossProfitPercent);
+  dataArray.push(e.parameter.YellowGreenGrossProfitPercent);
+  dataArray.push(e.parameter.RedYellowEBITPercent);
+  dataArray.push(e.parameter.YellowGreenEBITPercent);
+  dataArray.push(e.parameter.RedYellowNetProfitPercent);
+  dataArray.push(e.parameter.YellowGreenNetProfitPercent);
   const data = ws.getRange("A1").getDataRegion().getValues();
   
   for (var column=1; column<=dataArray.length+1;column++){
@@ -65,22 +70,29 @@ function doInsert(e, ws){
 
 function doUpdate(e, ws){
   let dataArray = [];
-  dataArray.push(e.parameter.RevenueDollar);
-  dataArray.push(e.parameter.GrossProfitDollar);
-  dataArray.push(e.parameter.GrossProfitPercent);
-  dataArray.push(e.parameter.EBITDollar);
-  dataArray.push(e.parameter.EBITPercent);
-  dataArray.push(e.parameter.NetProfitDollar);
-  dataArray.push(e.parameter.NetProfitPercent);
-  let IdPlant = e.parameter.Time;
+  dataArray.push(e.parameter.RedYellowRevenue);
+  dataArray.push(e.parameter.YellowGreenRevenue);
+  dataArray.push(e.parameter.RedYellowGrossProfit);
+  dataArray.push(e.parameter.YellowGreenGrossProfit);
+  dataArray.push(e.parameter.RedYellowEBIT);
+  dataArray.push(e.parameter.YellowGreenEBIT);
+  dataArray.push(e.parameter.RedYellowNetProfit);
+  dataArray.push(e.parameter.YellowGreenNetProfit);
+  dataArray.push(e.parameter.RedYellowGrossProfitPercent);
+  dataArray.push(e.parameter.YellowGreenGrossProfitPercent);
+  dataArray.push(e.parameter.RedYellowEBITPercent);
+  dataArray.push(e.parameter.YellowGreenEBITPercent);
+  dataArray.push(e.parameter.RedYellowNetProfitPercent);
+  dataArray.push(e.parameter.YellowGreenNetProfitPercent);
+  let Id = e.parameter.IdTresholdPAndL;
 
   let flag = 0;
   let lastRow = ws.getLastRow();
   const headers = ws.getRange("A1").getDataRegion().getValues().shift();
 
   for (var row = 1; row < lastRow; row++){
-    let IdPlantServer = ws.getRange(row, 1).getValue();
-    if (IdPlant==IdPlantServer){
+    let IdServer = ws.getRange(row, 1).getValue();
+    if (Id==IdServer){
       for(var column=1; column<=dataArray.length+1;column++){
         if (column>1){
           ws.getRange(row, column).setValue(dataArray[column-2]);
@@ -103,12 +115,12 @@ function doUpdate(e, ws){
 
 function doDelete(e, ws){
   let flag = false;
-  let IdPlant = e.parameter.Time;
+  let Id = e.parameter.IdTresholdPAndL;
   let lastRow = ws.getLastRow();
 
   for (var row = 1; row < lastRow; row++){
-    let IdPlantServer = ws.getRange(row, 1).getValue();
-    if (IdPlant==IdPlantServer){
+    let IdServer = ws.getRange(row, 1).getValue();
+    if (Id==IdServer){
       ws.deleteRow(row);
       flag = true;
     }
