@@ -1,17 +1,45 @@
 # json-api
 
-- npm install @google/clasp -g
+## Install Clasp CLI
+If you don't have Clasp install first on your machine
+```
+npm install @google/clasp -g
+```
 
-- clasp login
+## Connect with your Google
+```
+clasp login
+```
 
-- clasp clone <ID> --rootDir src
+## Setting Script Id or your Project ID to source folder
+```
+clasp clone <Your Script ID> --rootDir src
+```
 
-- npm i --save @types/google-apps-script
+## Install Google Apps Script in you project
+In this repository already add this script, so this is (optional)
+```
+npm i --save @types/google-apps-script
+```
 
-- setting Tampilkan file manifes "appsscript.json" di editor di google editor
+Copy your manifes `appsscript.json` in google editor into `src/appsscript.json` for example
+```
+{
+  "timeZone": "Asia/Jakarta",
+  "dependencies": {},
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "webapp": {
+    "executeAs": "USER_DEPLOYING",
+    "access": "ANYONE_ANONYMOUS"
+  }
+}
+```
 
-- https://script.google.com/home/usersettings aktifkan ini
+## Make sure your account activate the Google apps Script Settings
+https://script.google.com/home/usersettings (Activate this)
 
+
+## Deployment
+Push your code to the your Google App Script, your code will be appears in Editor Google
 - clasp push
-
-- git log --all --decorate --oneline --graph
