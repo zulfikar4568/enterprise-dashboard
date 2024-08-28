@@ -1,0 +1,58 @@
+services:
+  app:
+    container_name: app_container
+    image: zulfikar4568/cxo-dashboard:v1.0.0
+    environment:
+      ADMIN_PASSWORD: MxAdmin!
+      DATABASE_ENDPOINT: postgres://admin:admin@postgres:5432/mendix
+      MX_EnterpriseDashboardModule_CONST_RestURLService: http://localhost:8081/rest/supportservice/v1
+    ports:
+      - "8080:8080"
+    networks:
+      - batchrecord
+    restart: unless-stopped
+    depends_on:
+      - postgres
+      - pgadmin
+
+  postgres:
+    container_name: postgres_container
+    build:
+      context: .
+      dockerfile: postgres.dockerfile
+    environment:
+      POSTGRES_MULTIPLE_DATABASES: mendix,mendix1,mendix2
+      POSTGRES_USER: ${POSTGRES_USER:-admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-admin}
+      PGDATA: /data/postgres
+    volumes:
+       - postgres:/data/postgres
+    ports:
+      - 5433:5432
+    networks:
+      - batchrecord
+    restart: unless-stopped
+  
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-zulfikar@gmail.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+       - pgadmin:/var/lib/pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    networks:
+      - batchrecord
+    restart: unless-stopped
+
+networks:
+  batchrecord:
+    driver: bridge
+
+volumes:
+    mssql-azuresql-edge-data:
+    postgres:
+    pgadmin:
