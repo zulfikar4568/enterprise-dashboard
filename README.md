@@ -1,4 +1,5 @@
 # json-api
+Notes: This project use mendix version `9.24.21`
 
 ## Install Clasp CLI
 If you don't have Clasp install first on your machine
