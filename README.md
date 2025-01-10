@@ -1,6 +1,16 @@
-# json-api
+# Enterprise Dashboard
+You can check how to run the app in [here](./docker/README.md). Access the application on `http://localhost:8080`.
+Default User is `Admin` and Password is `@Admin123`
+
 Notes: This project use mendix version `9.24.21`
 
+## Data
+The data is maintained in this [Spread Sheet](https://docs.google.com/spreadsheets/d/1e7boDCAm5Rel64GfDueei_vWj71xJRVVwu1wcyHUWz0/edit?usp=sharing)
+
+## Backend API
+The Backend API is created using AppScript from Google, which you can find in here: [AppScript Project](https://script.google.com/home/projects/1zd9Jnmg7aEGlJybQ5k3M1EChpQ0G1bEqusoUMxaM7mWDdHqerI7x_pb0/edit)
+
+# How the API is being created
 ## Install Clasp CLI
 If you don't have Clasp install first on your machine
 ```

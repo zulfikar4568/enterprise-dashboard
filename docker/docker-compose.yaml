@@ -1,22 +1,28 @@
 services:
   app:
-    container_name: app_container
-    image: zulfikar4568/cxo-dashboard:v1.0.0
+    container_name: enterprise_dashboard_container
+    image: zulfikar4568/enterprise-dashboard:v1.0.0
     environment:
-      ADMIN_PASSWORD: MxAdmin!
+      ADMIN_PASSWORD: EDPasswordAdmin123!
       DATABASE_ENDPOINT: postgres://admin:admin@postgres:5432/mendix
-      MX_EnterpriseDashboardModule_CONST_RestURLService: http://localhost:8081/rest/supportservice/v1
+      MX_EnterpriseDashboardModule_CONST_AssemblyLine: https://script.google.com/macros/s/AKfycbyQ4cKOxCoVqtSGZbEWBEGnzwX7yR6jieOwJ8xEiYqygKaG-BGyCKPNztBXxD6jJpuS/exec
+      MX_EnterpriseDashboardModule_CONST_NCRCause: https://script.google.com/macros/s/AKfycbwYWDrTSS4Zvd-p1Ac85TKiGQC11qv8pgm_OP44HObW4GIEdPCnhO4ow2xjW-l0mFni/exec
+      MX_EnterpriseDashboardModule_CONST_PAndL: https://script.google.com/macros/s/AKfycbway8OGTMLC_76nhukY-1s7TIF2dAs0h-kT-0SBad_owq4ALozhByX3GXf60Ny8YJc3/exec
+      MX_EnterpriseDashboardModule_CONST_Plant: https://script.google.com/macros/s/AKfycbzKDLYG7VB0ebAwRcAiXBbGbwOUM9GmWnwf6CIa5o7K3SvAd0m-3ki-cPoJ7sngdnUw/exec
+      MX_EnterpriseDashboardModule_CONST_TargetPAndL: https://script.google.com/macros/s/AKfycbx0XgCbwILUFCfFJvase_dMWBwOUrF45lyMOPs7Fb6gpJJ092QXZV1RjXG2P_q5WqAK/exec
+      MX_EnterpriseDashboardModule_CONST_Treshold: https://script.google.com/macros/s/AKfycbz4c6Sz7a6amfTxjyz7joKADHZwSRoTlIhXBFfQ_sCDwo5n-SV1AUcjUCQueB5n6rx5/exec
+      MX_EnterpriseDashboardModule_CONST_TresholdPAndL: https://script.google.com/macros/s/AKfycbxLPf062xbQf8mUTzWKDGs4bdSo-rF2-6geYrl4Ewm8SnAl3WfkO1-aRIMVA4CP2w_c/exec
     ports:
       - "8080:8080"
     networks:
-      - batchrecord
+      - enterprise_dashboard
     restart: unless-stopped
     depends_on:
       - postgres
       - pgadmin
 
   postgres:
-    container_name: postgres_container
+    container_name: ed_postgres_container
     build:
       context: .
       dockerfile: postgres.dockerfile
@@ -26,33 +32,32 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-admin}
       PGDATA: /data/postgres
     volumes:
-       - postgres:/data/postgres
+       - ed_postgres:/data/postgres
     ports:
       - 5433:5432
     networks:
-      - batchrecord
+      - enterprise_dashboard
     restart: unless-stopped
   
   pgadmin:
-    container_name: pgadmin_container
+    container_name: ed_pgadmin_container
     image: dpage/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-zulfikar@gmail.com}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
-       - pgadmin:/var/lib/pgadmin
+       - ed_pgadmin:/var/lib/pgadmin
     ports:
       - "${PGADMIN_PORT:-5050}:80"
     networks:
-      - batchrecord
+      - enterprise_dashboard
     restart: unless-stopped
 
 networks:
-  batchrecord:
+  enterprise_dashboard:
     driver: bridge
 
 volumes:
-    mssql-azuresql-edge-data:
-    postgres:
-    pgadmin:
+    ed_postgres:
+    ed_pgadmin:
